@@ -1,0 +1,23 @@
+{
+  "name": "algo-prophet-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "projects/*",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "localnet:start": "algokit localnet start",
+    "localnet:stop": "algokit localnet stop",
+    "localnet:status": "algokit localnet status"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.0"
+  }
+}
