@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0A0A0A;
+  --surface: #111111;
+  --surface-hi: #1A1A1A;
+  --border: #222222;
+  --ghost: #666666;
+  --primary: #EAEAEA;
+  --cyan: #00E5FF;
+  --pink: #FF006E;
+  --green: #00FF88;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg);
+  color: var(--primary);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ghost);
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 229, 255, 0.15);
+  color: var(--cyan);
+}
+
+@layer utilities {
+  .border-razor {
+    border: 1px solid var(--border);
+  }
+
+  .text-ghost {
+    color: var(--ghost);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 12px 2px rgba(0, 229, 255, 0.25);
+  }
+
+  .glow-pink {
+    box-shadow: 0 0 12px 2px rgba(255, 0, 110, 0.25);
+  }
+
+  .label-header {
+    @apply text-xs tracking-widest uppercase text-ghost;
+    letter-spacing: 0.2em;
+  }
+}

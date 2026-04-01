@@ -1,0 +1,38 @@
+﻿
+> algo-prophet-logic@0.1.0 build
+> algokit compile typescript contracts
+
+info: puya-ts 1.1.0
+puya 5.3.2
+contracts/market/Market.algo.ts:14:48 error: string cannot be resolved to type any
+                                              creator = GlobalState<bytes>({ initialValue: '' as any })
+                                                                                           ^~~~~~~~~
+contracts/market/Market.algo.ts:21:5 error: No declaration exists for property GlobalState<bytes>.
+                                             this.creator.value = Txn.sender.bytes;
+                                             ^~~~~~~~~~~~
+contracts/market/Market.algo.ts:27:33 error: No declaration exists for property GlobalState<bytes>.
+                                              assert(Txn.sender.bytes === this.creator.value, 'Only creator can resolve');
+                                                                          ^~~~~~~~~~~~
+info: Compilation halted due to errors
+
+node.exe : An error occurred during compile. Please 
+ensure that any supplied arguments are valid and any 
+files passed are valid Algorand TypeScript code before 
+retrying.
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (An error o 
+   ccurr...efore retrying.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+npm error Lifecycle script `build` failed with error:
+npm error code 1
+npm error path C:\Algo 
+Hack\AlgoProphet\projects\algo-prophet-logic
+npm error workspace algo-prophet-logic@0.1.0
+npm error location C:\Algo 
+Hack\AlgoProphet\projects\algo-prophet-logic
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c 
+algokit compile typescript contracts

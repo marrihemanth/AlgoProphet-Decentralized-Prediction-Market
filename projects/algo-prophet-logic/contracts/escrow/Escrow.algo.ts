@@ -1,20 +1,27 @@
-import { Contract } from '@algorandfoundation/puya-ts'
+import { Contract } from '@algorandfoundation/algorand-typescript/arc4';
+import { GlobalState, uint64, assert, gtxn } from '@algorandfoundation/algorand-typescript';
+import { Global } from '@algorandfoundation/algorand-typescript/op';
+import { abimethod } from '@algorandfoundation/algorand-typescript/arc4';
 
 /**
  * AlgoProphet Escrow Contract
  * Holds collateral for open orders and prize pool for resolved markets.
- *
- * Phase 2 will implement:
- *  - deposit()  → lock ALGO/ASA from order placer
- *  - release()  → pay out winner after resolution
- *  - refund()   → return collateral on order cancel / market void
  */
 export class Escrow extends Contract {
-  // --- Global State ---
-  // totalLocked: GlobalStateKey<uint64>
-  // marketAppId: GlobalStateKey<uint64>
+  marketAppId = GlobalState<uint64>({ initialValue: 0 })
 
-  createApplication(): void {
-    // TODO Phase 2: initialize escrow
+  @abimethod()
+  initialize(marketId: uint64): void {
+    this.marketAppId.value = marketId;
+  }
+
+  @abimethod()
+  deposit(payment: gtxn.PaymentTxn): void {
+    assert(payment.receiver === Global.currentApplicationAddress, 'Payment must be to escrow');
+  }
+
+  @abimethod()
+  claim(): void {
+    assert(this.marketAppId.value > 0, 'Market not initialized');
   }
 }

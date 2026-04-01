@@ -1,0 +1,135 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 0 1
+    bytecblock "creator" 0x "description" "isResolved" "winningOutcome"
+    txn ApplicationID
+    bnz main_after_if_else@2
+    // contracts/market/Market.algo.ts:14
+    // creator = GlobalState<bytes>({ initialValue: Bytes() })
+    bytec_0 // "creator"
+    bytec_1 // 0x
+    app_global_put
+    // contracts/market/Market.algo.ts:15
+    // description = GlobalState<string>({ initialValue: '' })
+    bytec_2 // "description"
+    bytec_1 // ""
+    app_global_put
+    // contracts/market/Market.algo.ts:16
+    // isResolved = GlobalState<boolean>({ initialValue: false })
+    bytec_3 // "isResolved"
+    intc_0 // 0
+    app_global_put
+    // contracts/market/Market.algo.ts:17
+    // winningOutcome = GlobalState<uint64>({ initialValue: 0 })
+    bytec 4 // "winningOutcome"
+    intc_0 // 0
+    app_global_put
+
+main_after_if_else@2:
+    // contracts/market/Market.algo.ts:13
+    // export class Market extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@11
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    assert
+    pushbytess 0xb9833f25 0xf4689e59 // method "createMarket(string)void", method "resolveMarket(uint64)void"
+    txna ApplicationArgs 0
+    match createMarket resolveMarket
+    err
+
+main___algots__.defaultCreate@11:
+    // contracts/market/Market.algo.ts:13
+    // export class Market extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    intc_1 // 1
+    return
+
+
+// contracts/market/Market.algo.ts::Market.createMarket[routing]() -> void:
+createMarket:
+    // contracts/market/Market.algo.ts:19
+    // @abimethod()
+    txna ApplicationArgs 1
+    dup
+    intc_0 // 0
+    extract_uint16 // on error: invalid array length header
+    pushint 2 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    extract 2 0
+    // contracts/market/Market.algo.ts:14
+    // creator = GlobalState<bytes>({ initialValue: Bytes() })
+    bytec_0 // "creator"
+    // contracts/market/Market.algo.ts:21
+    // this.creator.value = Txn.sender.bytes;
+    txn Sender
+    app_global_put
+    // contracts/market/Market.algo.ts:15
+    // description = GlobalState<string>({ initialValue: '' })
+    bytec_2 // "description"
+    // contracts/market/Market.algo.ts:22
+    // this.description.value = description;
+    swap
+    app_global_put
+    // contracts/market/Market.algo.ts:19
+    // @abimethod()
+    intc_1 // 1
+    return
+
+
+// contracts/market/Market.algo.ts::Market.resolveMarket[routing]() -> void:
+resolveMarket:
+    // contracts/market/Market.algo.ts:25
+    // @abimethod()
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // contracts/market/Market.algo.ts:27
+    // assert(Txn.sender.bytes === this.creator.value, 'Only creator can resolve');
+    txn Sender
+    intc_0 // 0
+    // contracts/market/Market.algo.ts:14
+    // creator = GlobalState<bytes>({ initialValue: Bytes() })
+    bytec_0 // "creator"
+    // contracts/market/Market.algo.ts:27
+    // assert(Txn.sender.bytes === this.creator.value, 'Only creator can resolve');
+    app_global_get_ex
+    assert // check GlobalState exists
+    ==
+    assert // Only creator can resolve
+    // contracts/market/Market.algo.ts:16
+    // isResolved = GlobalState<boolean>({ initialValue: false })
+    bytec_3 // "isResolved"
+    // contracts/market/Market.algo.ts:28
+    // this.isResolved.value = true;
+    intc_1 // 1
+    app_global_put
+    // contracts/market/Market.algo.ts:17
+    // winningOutcome = GlobalState<uint64>({ initialValue: 0 })
+    bytec 4 // "winningOutcome"
+    // contracts/market/Market.algo.ts:29
+    // this.winningOutcome.value = outcome;
+    swap
+    app_global_put
+    // contracts/market/Market.algo.ts:25
+    // @abimethod()
+    intc_1 // 1
+    return
